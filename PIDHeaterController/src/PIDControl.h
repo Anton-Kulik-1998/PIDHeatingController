@@ -2,6 +2,12 @@
 #include <Arduino.h>
 #include "GyverPID.h"
 #include "Data.h"
+#include <OneWire.h>
+#include <DallasTemperature.h>
+
+OneWire oneWire(15); //настроить!!!
+DallasTemperature sensors(&oneWire);
+GyverPID pid;
 
 //Функция с ПИДом + Отрисовка графиков в Serial
 void pidCountrol() {
@@ -36,4 +42,3 @@ void setupPID() {
   pid.setDirection(NORMAL);  //Направление регулирования, HORMAL - для обогрева, REVERSE - для охлаждения
 }
 
-GyverPID pid;
