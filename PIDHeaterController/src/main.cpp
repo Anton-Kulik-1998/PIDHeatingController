@@ -2,7 +2,9 @@
 #include "PIDControl.h"
 
 void setup() {
-  // put your setup code here, to run once:
+  sensors.begin();  //это для датчика температуры
+  EEPROM.begin(4096);
+  setupPID();
 }
 
 void loop() {

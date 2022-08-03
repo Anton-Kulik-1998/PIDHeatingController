@@ -13,3 +13,13 @@ void saveMem() {
   EEPROM.put(1, settings);
   EEPROM.commit();
 }
+
+void checkMem() {
+  if (EEPROM.read(0) != 'w') {
+    EEPROM.put(1, settings);
+    EEPROM.write(0, 'w');
+    EEPROM.commit();
+  } else {
+    EEPROM.get(1, settings);
+  }
+}
