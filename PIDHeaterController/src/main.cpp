@@ -5,6 +5,7 @@ void setup() {
   sensors.begin();  //это для датчика температуры
   EEPROM.begin(4096);
   setupPID();
+  checkMem();
 }
 
 void loop() {
