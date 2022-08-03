@@ -1,7 +1,7 @@
 #pragma once
 #include <Arduino.h>
-
 #include "GyverPID.h"
+#include "Data.h"
 
 //Функция с ПИДом + Отрисовка графиков в Serial
 void pidCountrol() {
