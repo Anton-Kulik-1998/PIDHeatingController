@@ -4,7 +4,10 @@
 
 #include "Data.h"
 #include "Temperature.h"
+#include "Timer.h"
+
 GyverPID pid;
+Timer pidTimer;
 
 void loadPidSettings() {
   pid.Kp = settings.Kp;  //Даём эти переменные коэффициентам ПИД
@@ -15,9 +18,7 @@ void loadPidSettings() {
 
 //Функция с ПИДом + Отрисовка графиков в Serial
 void pidCountrol() {
-  static uint32_t tmr;
-  if (millis() - tmr > 50) {
-    tmr = millis();
+  if (pidTimer.startTimer(50)) {
     loadPidSettings();
     pid.input = temperature();
     pid.getResult();              //выполнить ПИД вычисления
