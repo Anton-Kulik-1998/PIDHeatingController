@@ -2,12 +2,11 @@
 #include "PIDControl.h"
 
 void setup() {
-  sensors.begin();  //это для датчика температуры
-  EEPROM.begin(4096);
-  setupPID();
-  checkMem();
+  setupTemp();
+  setupMem();
+  setupPID(1000); //частота шим
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  pidCountrol();
 }

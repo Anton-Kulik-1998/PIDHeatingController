@@ -7,6 +7,7 @@ struct {
   float Ki = 1.6;
   float Kd = 0.0;
   float setpoint = 25.0;
+  int dt = 50; //период работы pid алгоритма
 } settings;
 
 void saveMem() {
@@ -14,7 +15,8 @@ void saveMem() {
   EEPROM.commit();
 }
 
-void checkMem() {
+void setupMem() {
+  EEPROM.begin(4096);
   if (EEPROM.read(0) != 'w') {
     EEPROM.put(1, settings);
     EEPROM.write(0, 'w');
