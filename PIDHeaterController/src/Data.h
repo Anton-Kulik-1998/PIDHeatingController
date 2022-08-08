@@ -10,6 +10,15 @@ struct {
   int dt = 50; //период работы pid алгоритма
 } settings;
 
+struct Menu {
+  byte settingsItem = 0;
+  byte screensNum = 0;
+
+  void transferNum() {
+    if (screensNum != settingsItem) screensNum = settingsItem;
+  }
+};
+
 void saveMem() {
   EEPROM.put(1, settings);
   EEPROM.commit();
@@ -25,3 +34,7 @@ void setupMem() {
     EEPROM.get(1, settings);
   }
 }
+
+
+Menu menu;
+
