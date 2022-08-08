@@ -8,6 +8,6 @@ void setup() {
   setupLcd();
 }
 void loop() {
-  settingsScreen();
-  delay(2000);
+  enc.tick(); 
+  screens();
 }

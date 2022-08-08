@@ -1,14 +1,16 @@
 #pragma once
 #include <Arduino.h>
 #include <LiquidCrystal_I2C.h>  // подключаем библу
+
+#include "Data.h"
+#include "Encoder.h"
+
 // адрес дисплея 0x3f или 0x27
 // размер дисплея 16x2 (поддерживаются и другие, например 20x4)
 LiquidCrystal_I2C lcd(0x27, 16, 2);  // адрес, столбцов, строк
 
 String test = "";
 
-byte settingsItem = 0;
-byte screensNum = 0;
 
 void lcdTest() {
   if (Serial.available() > 0) {
@@ -58,7 +60,7 @@ void homeScreen(float temp1 = 10, float temp2 = 10) {
 }
 
 void settingsScreen() {
-  switch (settingsItem) {
+  switch (menu.settingsItem) {
     case 0:
     case 1:
       lcd.setCursor(1, 0);
@@ -77,26 +79,33 @@ void settingsScreen() {
       break;
 
     default:
-      settingsItem = 0;
+      menu.settingsItem = 0;
       break;
   }
-  pointer(settingsItem);
+  pointer(menu.settingsItem);
 }
 
 
 void screens() {
-  switch (screensNum)
+  switch (menu.screensNum)
   {
   case 0:
     homeScreen();
+    encHomeAction();
     break;
   
   case 10:
     settingsScreen();
+    encSettingsAction();
     break;
   
   default:
+    menu.screensNum = 0;
     break;
   }
 }
 
+/*
+Нужно сделать общий таймер для отображения всех скринов. 
+Реализовать получением bool в функции скринов
+*/
