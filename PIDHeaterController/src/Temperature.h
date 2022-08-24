@@ -3,9 +3,12 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 
-OneWire oneWire(14); //настроить!!!
-DallasTemperature sensors(&oneWire);
+#include "Data.h"
+#include "Timer.h"
 
+OneWire oneWire(3); //настроить!!!
+DallasTemperature sensors(&oneWire);
+Timer tempTimer;
 
 float temperature() {
   sensors.requestTemperatures();  //Сделать опрос датчика темп.
@@ -15,4 +18,11 @@ float temperature() {
 
 void setupTemp(){
   sensors.begin();  //это для датчика температуры
+}
+
+void getTemperature() {
+  if (tempTimer.startTimer(500))
+  {
+    temperatureData = temperature();
+  }
 }

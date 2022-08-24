@@ -11,13 +11,15 @@ struct {
 } settings;
 
 struct Menu {
-  byte settingsItem = 0;
-  byte screensNum = 0;
+  int8_t settingsItem = 0;
+  int8_t screensNum = 0;
+  int8_t pidItem = 0;
 
   void transferNum() {
     if (screensNum != settingsItem) screensNum = settingsItem;
   }
 };
+Menu menu;
 
 void saveMem() {
   EEPROM.put(1, settings);
@@ -35,6 +37,10 @@ void setupMem() {
   }
 }
 
+bool flag = false;
 
-Menu menu;
+String test = "";
 
+bool testM = false;
+
+float temperatureData = 0;

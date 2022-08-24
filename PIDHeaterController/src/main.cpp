@@ -1,17 +1,18 @@
 #include <Arduino.h>
 #include "PIDControl.h"
 #include <Wire.h>
-#include"lcd.h"
+#include"Lcd.h"
 
 void setup() {
   setupTemp();
   setupMem();
-  setupPID(1000); //частота шим
+  //setupPID(1000); //частота шим
   setupLcd();
 }
 
 void loop() {
-  pidCountrol();
+  getTemperature();
+  //pidCountrol();
   enc.tick(); 
   screens();
 
