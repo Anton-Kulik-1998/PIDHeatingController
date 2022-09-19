@@ -46,15 +46,15 @@ void encHomeAction() {
 }
 
 void encSettingsAction() {
-  if (enc.left()) menu.settingsItem -= 1;  // поворот налево ТЕМПЕРАТУРА
-  if (enc.right()) menu.settingsItem += 1;
+  if (enc.left()) menu.item -= 1;  // поворот налево ТЕМПЕРАТУРА
+  if (enc.right()) menu.item += 1;
   
   if (enc.press()) menu.transferNum();
 }
 
 void encPIDAction() {
   if (pidPointFlag) {
-    switch (menu.pidItem)
+    switch (pidMenu.item)
     {
     case 0:
       if (enc.left()) settings.Kp -= 0.01;
@@ -80,8 +80,8 @@ void encPIDAction() {
       break;
     }
   } else {
-    if (enc.left()) menu.pidItem -= 1;  // поворот налево ТЕМПЕРАТУРА
-    if (enc.right()) menu.pidItem += 1;
+    if (enc.left()) pidMenu.item -= 1;  // поворот налево ТЕМПЕРАТУРА
+    if (enc.right()) pidMenu.item += 1;
   }
   if (enc.press()) pidPointFlag = !pidPointFlag;
   if (enc.hasClicks(3)) menu.screen = 10;

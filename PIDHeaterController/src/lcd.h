@@ -19,6 +19,13 @@ void setupLcd() {
   lcd.home();
 }
 
+void lcdClear(bool flag) {
+  if (flag) {
+    lcd.clear();
+    flag = !flag;
+  }
+}
+
 struct {
  private:
   void point(int8_t row, bool flag) {
@@ -68,24 +75,27 @@ struct {
     lcd.print(temp2, 1);
     lcd.write(223);
     lcd.print("C ");
+
+    lcd.setCursor(0, 1);
+    lcd.print("                ");
   }
 } homeScreen;
 
 struct {
   void show() {
-    switch (menu.settingsItem) {
+    switch (menu.item) {
       case -1:
-        menu.settingsItem = 3;
+        menu.item = 3;
         break;
 
       case 0:
       case 1:
         lcd.setCursor(1, 0);
-        lcd.print("Back");
+        lcd.print("BACK");
         lcd.write(127);
         lcd.print("         ");
         lcd.setCursor(1, 1);
-        lcd.print("PID Settings  ");
+        lcd.print("PID SETTINGS  ");
         break;
 
       case 2:
@@ -97,47 +107,55 @@ struct {
         break;
 
       default:
-        menu.settingsItem = 0;
+        menu.item = 0;
         break;
     }
-    pointer.show(menu.settingsItem);
+    pointer.show(menu.item);
   }
 
 } settingsScreen;
 
 struct {
   void show() {
-    switch (menu.pidItem) {
+    switch (pidMenu.item) {
       case -1:
-        menu.pidItem = 3;
+        pidMenu.item = 3;
         break;
 
       case 0:
       case 1:
         lcd.setCursor(1, 0);
         lcd.print("P: ");
-        lcd.print("         ");
+        lcd.print(settings.Kp);
+        lcd.print("       ");
         lcd.setCursor(1, 1);
         lcd.print("I: ");
+        lcd.print(settings.Ki);
+        lcd.print("       ");
         break;
 
       case 2:
       case 3:
         lcd.setCursor(1, 0);
         lcd.print("D: ");
+        lcd.print(settings.Kd);
+        lcd.print("      ");
         lcd.setCursor(1, 1);
         lcd.print("t: ");
+        lcd.print(settings.dt);
+        lcd.print("       ");
         break;
 
       default:
-        menu.pidItem = 0;
+        pidMenu.item = 0;
         break;
     }
-    pointer.show(menu.pidItem, pidPointFlag);
+    pointer.show(pidMenu.item, pidPointFlag);
   }
 } pidScreen;
 
 void lcdScreens(int showTime = 100) {
+  // lcdClear(clearLcdFlag);
   switch (menu.screen) {
     case 0:
       if (lcdTimer.startTimer(showTime)) {
