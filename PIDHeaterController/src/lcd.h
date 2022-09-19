@@ -20,7 +20,40 @@ void setupLcd() {
 }
 
 struct {
+ private:
+  void point(int8_t row, bool flag) {
+    if (flag) {
+      lcd.setCursor(0, row);
+      lcd.print("*");
+      lcd.setCursor(15, row);
+      lcd.print("*");
+    } else {
+      lcd.setCursor(0, row);
+      lcd.print(">");
+      lcd.setCursor(15, row);
+      lcd.print("<");
+    }
+  }
+
  public:
+  void show(int8_t item = 0, bool flag = false) {
+    if (item % 2) {
+      point(1, flag);
+      lcd.setCursor(0, 0);
+      lcd.print(" ");
+      lcd.setCursor(15, 0);
+      lcd.print(" ");
+    } else {
+      point(0, flag);
+      lcd.setCursor(0, 1);
+      lcd.print(" ");
+      lcd.setCursor(15, 1);
+      lcd.print(" ");
+    }
+  }
+} pointer;
+
+struct {
   void show(float temp1 = 10, float temp2 = 10) {
     lcd.home();
     lcd.print(temp1, 1);
@@ -39,30 +72,6 @@ struct {
 } homeScreen;
 
 struct {
- private:
-  void pointer(int8_t menu) {
-    if (menu % 2) {
-      lcd.setCursor(0, 1);
-      lcd.print(">");
-      lcd.setCursor(15, 1);
-      lcd.print("<");
-      lcd.setCursor(0, 0);
-      lcd.print(" ");
-      lcd.setCursor(15, 0);
-      lcd.print(" ");
-    } else {
-      lcd.setCursor(0, 0);
-      lcd.print(">");
-      lcd.setCursor(15, 0);
-      lcd.print("<");
-      lcd.setCursor(0, 1);
-      lcd.print(" ");
-      lcd.setCursor(15, 1);
-      lcd.print(" ");
-    }
-  }
-
- public:
   void show() {
     switch (menu.settingsItem) {
       case -1:
@@ -91,105 +100,41 @@ struct {
         menu.settingsItem = 0;
         break;
     }
-    pointer(menu.settingsItem);
+    pointer.show(menu.settingsItem);
   }
 
 } settingsScreen;
 
 struct {
- private:
-  void point(bool flag) {
-    flag ? lcd.print("*") : lcd.print(">");
-  }
-  void pointer(int8_t pidItem = 0, bool flag = false) {
-    switch (pidItem) {
+  void show() {
+    switch (menu.pidItem) {
       case -1:
-        pidItem = 0;
+        menu.pidItem = 3;
         break;
 
       case 0:
-        lcd.setCursor(0, 0);
-        point(flag);
-
-        lcd.setCursor(8, 0);
-        lcd.print(" ");
-
-        lcd.setCursor(0, 1);
-        lcd.print(" ");
-
-        lcd.setCursor(8, 1);
-        lcd.print(" ");
-        break;
-
       case 1:
-        lcd.setCursor(0, 0);
-        lcd.print(" ");
-
-        lcd.setCursor(8, 0);
-        point(flag);
-
-        lcd.setCursor(0, 1);
-        lcd.print(" ");
-
-        lcd.setCursor(8, 1);
-        lcd.print(" ");
+        lcd.setCursor(1, 0);
+        lcd.print("P: ");
+        lcd.print("         ");
+        lcd.setCursor(1, 1);
+        lcd.print("I: ");
         break;
 
       case 2:
-        lcd.setCursor(0, 0);
-        lcd.print(" ");
-
-        lcd.setCursor(8, 0);
-        lcd.print(" ");
-
-        lcd.setCursor(0, 1);
-        point(flag);
-
-        lcd.setCursor(8, 1);
-        lcd.print(" ");
-        break;
-
       case 3:
-        lcd.setCursor(0, 0);
-        lcd.print(" ");
-
-        lcd.setCursor(8, 0);
-        lcd.print(" ");
-
-        lcd.setCursor(0, 1);
-        lcd.print(" ");
-
-        lcd.setCursor(8, 1);
-        point(flag);
+        lcd.setCursor(1, 0);
+        lcd.print("D: ");
+        lcd.setCursor(1, 1);
+        lcd.print("t: ");
         break;
 
       default:
-        pidItem = 0;
+        menu.pidItem = 0;
         break;
     }
+    pointer.show(menu.pidItem, pidPointFlag);
   }
-
- public:
-  void show() {
-    lcd.setCursor(1, 0);
-    lcd.print("P:");
-    lcd.print(settings.Kp);
-
-    lcd.setCursor(9, 0);
-    lcd.print("I:");
-    lcd.print(settings.Ki);
-
-    lcd.setCursor(1, 1);
-    lcd.print("D:");
-    lcd.print(settings.Kd);
-
-    lcd.setCursor(9, 1);
-    lcd.print("t:");
-    lcd.print(settings.dt);
-
-    pointer(menu.pidItem, pidPointFlag);
-  }
-
 } pidScreen;
 
 void lcdScreens(int showTime = 100) {
