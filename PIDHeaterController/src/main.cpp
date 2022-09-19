@@ -4,16 +4,16 @@
 #include"Lcd.h"
 
 void setup() {
-  setupTemp();
+  //setupTemp();
   setupMem();
   //setupPID(1000); //частота шим
   setupLcd();
 }
 
 void loop() {
-  getTemperature();
-  //pidCountrol();
   enc.tick(); 
-  screens();
+  //getTemperature();
+  //pidCountrol();
+  lcdScreens();
 
 }

@@ -34,6 +34,7 @@ EncButton<EB_TICK, 14, 12, 13> enc;  //настроить пины
 //   Serial.println(enc.clicks);
 // }
 
+
 void encHomeAction() {
   if (enc.leftH()) settings.setpoint -= 1.0;   // поворот налево ТЕМПЕРАТУРА
   if (enc.rightH()) settings.setpoint += 1.0;  // поворот направо ТЕМПЕРАТУРА
@@ -41,17 +42,18 @@ void encHomeAction() {
   if (enc.left()) settings.setpoint -= 0.1;   // поворот налево ТЕМПЕРАТУРА
   if (enc.right()) settings.setpoint += 0.1;  // поворот направо ТЕМПЕРАТУРА
 
-  if (enc.hasClicks(3)) menu.screensNum = 10, flag = !flag;
+  if (enc.hasClicks(3)) menu.screen = 10;
 }
 
 void encSettingsAction() {
   if (enc.left()) menu.settingsItem -= 1;  // поворот налево ТЕМПЕРАТУРА
   if (enc.right()) menu.settingsItem += 1;
-  if (enc.press()) menu.transferNum(), flag = !flag;
+  
+  if (enc.press()) menu.transferNum();
 }
 
 void encPIDAction() {
-  if (testM) {
+  if (pidPointFlag) {
     switch (menu.pidItem)
     {
     case 0:
@@ -81,6 +83,6 @@ void encPIDAction() {
     if (enc.left()) menu.pidItem -= 1;  // поворот налево ТЕМПЕРАТУРА
     if (enc.right()) menu.pidItem += 1;
   }
-  if (enc.press()) testM = !testM;
-  if (enc.hasClicks(3)) menu.screensNum = 10, flag = !flag;
+  if (enc.press()) pidPointFlag = !pidPointFlag;
+  if (enc.hasClicks(3)) menu.screen = 10;
 }

@@ -15,7 +15,6 @@ float temperature() {
   return sensors.getTempCByIndex(0);
 }
 
-
 void setupTemp(){
   sensors.begin();  //это для датчика температуры
 }

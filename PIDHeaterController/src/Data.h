@@ -10,16 +10,15 @@ struct {
   int dt = 50; //период работы pid алгоритма
 } settings;
 
-struct Menu {
-  int8_t settingsItem = 0;
-  int8_t screensNum = 0;
-  int8_t pidItem = 0;
+struct {
+  int8_t settingsItem = 0; //выбранный номер настройки в меню
+  int8_t screen = 0; //выбранный экран для отображения
+  int8_t pidItem = 0; //выбранная настройка на экране настройки PID
 
-  void transferNum() {
-    if (screensNum != settingsItem) screensNum = settingsItem;
+  void transferNum() { //перейти на выбранный экран
+    if (screen != settingsItem) screen = settingsItem;
   }
-};
-Menu menu;
+} menu;
 
 void saveMem() {
   EEPROM.put(1, settings);
@@ -36,11 +35,6 @@ void setupMem() {
     EEPROM.get(1, settings);
   }
 }
+bool pidPointFlag = false; //если в меню настройки PID выбран элемент, он подсвечивается *, иначе >
 
-bool flag = false;
-
-String test = "";
-
-bool testM = false;
-
-float temperatureData = 0;
+float temperatureData = 0; //Переменная для хранения температуры
