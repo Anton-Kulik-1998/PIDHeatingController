@@ -34,7 +34,6 @@ EncButton<EB_TICK, 14, 12, 13> enc;  //настроить пины
 //   Serial.println(enc.clicks);
 // }
 
-
 void encHomeAction() {
   if (enc.leftH()) settings.setpoint -= 1.0;   // поворот налево ТЕМПЕРАТУРА
   if (enc.rightH()) settings.setpoint += 1.0;  // поворот направо ТЕМПЕРАТУРА
@@ -42,47 +41,63 @@ void encHomeAction() {
   if (enc.left()) settings.setpoint -= 0.1;   // поворот налево ТЕМПЕРАТУРА
   if (enc.right()) settings.setpoint += 0.1;  // поворот направо ТЕМПЕРАТУРА
 
-  if (enc.hasClicks(3)) menu.screen = 10;
+  if (enc.held()) menu.screen = 10;
 }
+//hasClicks(3)
 
 void encSettingsAction() {
   if (enc.left()) menu.item -= 1;  // поворот налево ТЕМПЕРАТУРА
   if (enc.right()) menu.item += 1;
-  
+
   if (enc.press()) menu.transferNum();
 }
 
 void encPIDAction() {
   if (pidPointFlag) {
-    switch (pidMenu.item)
-    {
-    case 0:
-      if (enc.left()) settings.Kp -= 0.01;
-      if (enc.right()) settings.Kp += 0.01;
-      break;
+    switch (pidMenu.item) {
+      case 1:
+        if (enc.left()) settings.Kp -= 0.001;
+        if (enc.right()) settings.Kp += 0.001;
+        if (enc.leftH()) settings.Kp -= 1;
+        if (enc.rightH()) settings.Kp += 1;
+        break;
 
-    case 1:
-      if (enc.left()) settings.Ki -= 0.01;
-      if (enc.right()) settings.Ki += 0.01;
-      break;
-    
-    case 2:
-      if (enc.left()) settings.Kd -= 0.01;
-      if (enc.right()) settings.Kd += 0.01;
-      break;
-    
-    case 3:
-      if (enc.left()) settings.dt -= 1;
-      if (enc.right()) settings.dt += 1;
-      break;
-    
-    default:
-      break;
+      case 2:
+        if (enc.left()) settings.Ki -= 0.001;
+        if (enc.right()) settings.Ki += 0.001;
+        if (enc.leftH()) settings.Ki -= 1;
+        if (enc.rightH()) settings.Ki += 1;
+        break;
+
+      case 3:
+        if (enc.left()) settings.Kd -= 0.001;
+        if (enc.right()) settings.Kd += 0.001;
+        if (enc.leftH()) settings.Kd -= 1;
+        if (enc.rightH()) settings.Kd += 1;
+        break;
+
+      case 4:
+        if (enc.left()) settings.dt -= 1;
+        if (enc.right()) settings.dt += 1;
+        if (enc.leftH()) settings.dt -= 10;
+        if (enc.rightH()) settings.dt += 10;
+        break;
+
+      default:
+        break;
     }
   } else {
     if (enc.left()) pidMenu.item -= 1;  // поворот налево ТЕМПЕРАТУРА
     if (enc.right()) pidMenu.item += 1;
   }
-  if (enc.press()) pidPointFlag = !pidPointFlag;
+  if (enc.press()) {
+    if (pidMenu.item == 0) {
+      saveMem();
+      menu.screen = 10;
+    } else {
+      pidPointFlag = !pidPointFlag;
+    }
+  }
+
   if (enc.hasClicks(3)) menu.screen = 10;
 }

@@ -101,9 +101,9 @@ struct {
       case 2:
       case 3:
         lcd.setCursor(1, 0);
-        lcd.print("test1         ");
+        lcd.print("WI-FI         ");
         lcd.setCursor(1, 1);
-        lcd.print("test2         ");
+        lcd.print("TIMER         ");
         break;
 
       default:
@@ -119,31 +119,40 @@ struct {
   void show() {
     switch (pidMenu.item) {
       case -1:
-        pidMenu.item = 3;
+        pidMenu.item = 4;
         break;
 
       case 0:
       case 1:
         lcd.setCursor(1, 0);
-        lcd.print("P: ");
-        lcd.print(settings.Kp);
-        lcd.print("       ");
+        lcd.print("BACK");
+        lcd.write(127);
+        lcd.print("         ");
         lcd.setCursor(1, 1);
-        lcd.print("I: ");
-        lcd.print(settings.Ki);
-        lcd.print("       ");
+        lcd.print("P: ");
+        lcd.print(settings.Kp,3);
+        lcd.print("     ");
         break;
 
       case 2:
       case 3:
         lcd.setCursor(1, 0);
-        lcd.print("D: ");
-        lcd.print(settings.Kd);
-        lcd.print("      ");
+        lcd.print("I: ");
+        lcd.print(settings.Ki,3);
+        lcd.print("     ");
         lcd.setCursor(1, 1);
+        lcd.print("D: ");
+        lcd.print(settings.Kd,3);
+        lcd.print("     ");
+        break;
+
+      case 4:
+        lcd.setCursor(1, 0);
         lcd.print("t: ");
         lcd.print(settings.dt);
-        lcd.print("       ");
+        lcd.print("        ");
+        lcd.setCursor(1, 1);
+        lcd.print("              ");
         break;
 
       default:

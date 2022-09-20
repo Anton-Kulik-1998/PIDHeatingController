@@ -19,8 +19,8 @@ void setupTemp(){
   sensors.begin();  //это для датчика температуры
 }
 
-void getTemperature() {
-  if (tempTimer.startTimer(500))
+void getTemperature(int timer = 500) {
+  if (tempTimer.startTimer(timer))
   {
     temperatureData = temperature();
   }
